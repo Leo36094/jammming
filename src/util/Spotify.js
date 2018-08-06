@@ -17,21 +17,22 @@ const Spotify = {
     window.setTimeout(()=>{
       userAccessToken = '';
     }, expiredTime)
-    window.history.pushState('access Token', null, '/' );
+    window.history.pushState('accessToken', null, '/' );
     return userAccessToken;
   }else{
     return window.location.href = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirectURI}`
   }
 },
   search(term){
-    const endPoint = `https://api.spotify.com//v1/search?type=${term}`;
-    fetch(endPoint, {
+    const endPoint = `https://api.spotify.com/v1/search?type=track&q=${term}`;
+    return fetch(endPoint, {
       headers: {
         Authorization: `Bearer ${this.getAccessToken()}`
       }
     })
     .then(response=>response.json())
     .then(jsonResponse=>{
+      console.log(jsonResponse);
       if (!jsonResponse.tracks){
         return [];
       }else{
