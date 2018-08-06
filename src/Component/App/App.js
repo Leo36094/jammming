@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import PlayList from '../PlayList/PlayList';
+import Spotify from '../../util/Spotify';
 import './App.css';
 
 class App extends Component {
@@ -89,12 +90,20 @@ class App extends Component {
   savePlayList(){
     const playListTracks = this.state.playListTracks;
     const trackURIs = playListTracks.map(currTrack=>{
-      currTrack.uri;
+      return currTrack.uri;
     });
+    this.setState({
+      playListTracks: trackURIs
+    })
   }
 
   search(term){
-    console.log(term);
+    Spotify.search(term).then(tracks=>{
+      console.log(tracks);
+      this.setState({
+        searchResults:tracks
+      })
+    })
   }
 
 
